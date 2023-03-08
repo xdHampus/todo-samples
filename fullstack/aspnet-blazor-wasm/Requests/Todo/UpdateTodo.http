@@ -1,0 +1,11 @@
+@id=01c421c7-4c0b-49d4-a7cf-01530612fd6c
+
+PUT http://localhost:5158/api/todos/{{id}}
+Content-Type: application/json
+
+{
+    "title": "Do cleaning",
+    "description": "Do the laundry and wash the floor.",
+    "completed": true,
+    "postDate": "2023-01-22T01:53:25" 
+}

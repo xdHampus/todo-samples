@@ -1,0 +1,4 @@
+@id=05b709d3-27b8-44fe-b078-9c91cb770f5e
+
+DELETE http://localhost:5158/api/todos/{{id}}
+

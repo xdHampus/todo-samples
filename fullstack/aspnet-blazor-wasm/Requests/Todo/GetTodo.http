@@ -1,0 +1,4 @@
+@id=01c421c7-4c0b-49d4-a7cf-01530612fd6c
+
+GET http://localhost:5158/api/todos/{{id}}
+

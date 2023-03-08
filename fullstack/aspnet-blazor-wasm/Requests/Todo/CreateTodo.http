@@ -1,0 +1,10 @@
+POST http://localhost:5158/api/todos
+
+Content-Type: application/json
+
+{
+    "title": "Do cleaning",
+    "description": "Do the dishes, laundry, etc.",
+    "completed": false,
+    "postDate": "2023-01-22T01:53:25" 
+}

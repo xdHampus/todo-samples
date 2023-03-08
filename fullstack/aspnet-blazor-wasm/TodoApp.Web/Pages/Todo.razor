@@ -1,0 +1,49 @@
+﻿@page "/todo"
+@inherits TodoApp.Web.Pages.TodoBase;
+@using TodoApp.Models.Dtos;
+
+<h3>Todo (@Todos.Count(todo => !todo.Completed))</h3>
+
+<ul>
+    @foreach (var todo in Todos)
+    {
+        <li>
+            Title: &emsp;&emsp;&emsp;&emsp;  @todo.Title <br/> 
+            Description: &ensp;&nbsp; @todo.Description <br/>
+            Completed: &emsp; <button @onclick="() => Toggle(todo)">@todo.Completed</button> 
+        </li>
+        <button @onclick="() => Delete(todo)">Delete</button> 
+        <br>
+    }
+</ul>
+
+<input placeholder="Todo title" @bind="newTodoTitle" />
+<input placeholder="Todo description" @bind="newTodoDescription" />
+<button @onclick="AddTodo">Add todo</button>
+
+@code {
+
+    private string newTodoTitle = string.Empty;
+    private string newTodoDescription = string.Empty;
+    private async Task AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodoTitle))
+        {
+            await TodoService.CreateTodo(new CreateTodoRequestDto(newTodoTitle, newTodoDescription, false));
+            newTodoTitle = string.Empty;
+            newTodoDescription = string.Empty;
+            await GetAllTodos();
+        }
+    }
+    private async Task Toggle(TodoResponseDto todo)
+    {
+        var update = new UpdateTodoRequestDto(todo.Title, todo.Description, !todo.Completed, todo.PostDateTime);
+        await TodoService.UpdateTodo(todo.Id, update);
+        await GetAllTodos();
+    }
+    private async Task Delete(TodoResponseDto todo)
+    {
+        await TodoService.DeleteTodo(todo.Id);
+        await GetAllTodos();
+    }
+}
