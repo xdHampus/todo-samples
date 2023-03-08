@@ -1,5 +1,5 @@
 {
-  description = "A standard flake template";
+  description = "Example Todo app backend in Django";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

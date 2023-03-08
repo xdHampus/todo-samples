@@ -1,5 +1,5 @@
 {
-  description = "dotnet todo sample app";
+  description = "Example fullstack Todo app using ASP.NET and Blazor";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
