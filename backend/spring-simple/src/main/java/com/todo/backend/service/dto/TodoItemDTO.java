@@ -5,13 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Data @NoArgsConstructor
 public class TodoItemDTO {
+    public TodoItemDTO() {
+    }
     public TodoItemDTO(String title, String description) {
         this.title = title;
         this.description = description;
@@ -26,4 +26,60 @@ public class TodoItemDTO {
     private final LocalDateTime createdAt = LocalDateTime.now();
     @JsonIgnore
     private final LocalDateTime editedAt = LocalDateTime.now();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getEditedAt() {
+        return editedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TodoItemDTO that = (TodoItemDTO) o;
+        return id.equals(that.id) && title.equals(that.title) && description.equals(that.description) && createdAt.equals(that.createdAt) && editedAt.equals(that.editedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, createdAt, editedAt);
+    }
+
+    @Override
+    public String toString() {
+        return "TodoItemDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", editedAt=" + editedAt +
+                '}';
+    }
 }
