@@ -1,9 +1,7 @@
 package com.todo.backend.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Table(name = "todo_item")
 public class TodoItem {
     public TodoItem() {
     }
@@ -20,22 +19,32 @@ public class TodoItem {
         createdAt = LocalDateTime.now();
         editedAt = LocalDateTime.now();
     }
-    @Id @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
     @NotBlank
+    @NotNull
+    @Column(name = "title")
     private String title;
     @NotNull
+    @Column(name = "description")
     private String description;
     @NotNull
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     @NotNull
+    @Column(name = "edited_at")
     private LocalDateTime editedAt;
 
-    public Long getId() {
+    @Column(name = "completed", columnDefinition = "boolean default false")
+    @NotNull
+    private boolean completed = false;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,6 +78,14 @@ public class TodoItem {
 
     public void setEditedAt(LocalDateTime editedAt) {
         this.editedAt = editedAt;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override

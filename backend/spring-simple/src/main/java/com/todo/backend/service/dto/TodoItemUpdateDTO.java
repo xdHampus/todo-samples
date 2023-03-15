@@ -1,8 +1,6 @@
 package com.todo.backend.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,8 +11,8 @@ public class TodoItemUpdateDTO {
     public TodoItemUpdateDTO() {
     }
 
-    @Id @GeneratedValue
-    private Long id;
+    @NotNull
+    private Integer id;
     @NotBlank
     private String title;
     @NotNull
@@ -23,11 +21,11 @@ public class TodoItemUpdateDTO {
     @JsonIgnore
     private final LocalDateTime editedAt = LocalDateTime.now();
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

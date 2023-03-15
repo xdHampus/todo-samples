@@ -21,7 +21,7 @@ public class TodoController {
         return todoService.findAll();
     }
     @GetMapping("/{id}")
-    TodoItemDTO get(@PathVariable Long id){
+    TodoItemDTO get(@PathVariable Integer id){
         return todoService.findById(id);
     }
     @PostMapping
@@ -33,7 +33,7 @@ public class TodoController {
         return todoService.update(updatedItem);
     }
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id){
+    void delete(@PathVariable Integer id){
         todoService.delete(id);
     }
 

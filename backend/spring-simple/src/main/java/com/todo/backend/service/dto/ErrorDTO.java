@@ -12,7 +12,6 @@ public class ErrorDTO {
         this.errorMessage = errorMessage;
     }
 
-    @NotBlank
     public String errorMessage;
 
     public String getErrorMessage() {

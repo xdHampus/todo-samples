@@ -29,7 +29,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public TodoItemDTO findById(Long id) {
+    public TodoItemDTO findById(Integer id) {
         return mapper.map(
                 todoRepository.findById(id)
                         .orElseThrow(() -> new TodoItemNotFoundException(id)),
@@ -45,15 +45,17 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TodoItemDTO update(TodoItemUpdateDTO updatedItem) {
-        if(!todoRepository.existsById(updatedItem.getId())){
-            throw new TodoItemNotFoundException(updatedItem.getId());
-        }
-        var savedItem = todoRepository.save(mapper.map(updatedItem, TodoItem.class));
-        return mapper.map(savedItem, TodoItemDTO.class);
+        var oldItem = todoRepository.findById(updatedItem.getId())
+                .orElseThrow(() -> new TodoItemNotFoundException(updatedItem.getId()));
+
+        var itemToSave = mapper.map(updatedItem, TodoItem.class);
+        itemToSave.setCreatedAt(oldItem.getCreatedAt());
+
+        return mapper.map(todoRepository.save(itemToSave), TodoItemDTO.class);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         if(!todoRepository.existsById(id)){
             throw new TodoItemNotFoundException(id);
         }

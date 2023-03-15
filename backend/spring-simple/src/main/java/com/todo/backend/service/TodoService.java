@@ -8,11 +8,11 @@ import java.util.List;
 public interface TodoService {
     List<TodoItemDTO> findAll();
 
-    TodoItemDTO findById(Long id);
+    TodoItemDTO findById(Integer id);
 
     TodoItemDTO add(TodoItemDTO newItem);
 
     TodoItemDTO update(TodoItemUpdateDTO updatedItem);
 
-    void delete(Long id);
+    void delete(Integer id);
 }
