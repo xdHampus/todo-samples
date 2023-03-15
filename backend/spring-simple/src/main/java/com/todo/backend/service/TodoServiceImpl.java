@@ -2,6 +2,7 @@ package com.todo.backend.service;
 
 import com.todo.backend.model.TodoItem;
 import com.todo.backend.model.repository.TodoRepository;
+import com.todo.backend.service.dto.TodoItemCreateDTO;
 import com.todo.backend.service.dto.TodoItemDTO;
 import com.todo.backend.service.dto.TodoItemUpdateDTO;
 import com.todo.backend.util.TodoItemNotFoundException;
@@ -38,7 +39,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public TodoItemDTO add(TodoItemDTO newItem) {
+    public TodoItemDTO add(TodoItemCreateDTO newItem) {
         var savedItem = todoRepository.save(mapper.map(newItem, TodoItem.class));
         return mapper.map(savedItem, TodoItemDTO.class);
     }

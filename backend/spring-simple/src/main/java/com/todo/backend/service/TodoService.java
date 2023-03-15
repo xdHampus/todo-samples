@@ -1,5 +1,6 @@
 package com.todo.backend.service;
 
+import com.todo.backend.service.dto.TodoItemCreateDTO;
 import com.todo.backend.service.dto.TodoItemDTO;
 import com.todo.backend.service.dto.TodoItemUpdateDTO;
 
@@ -10,7 +11,7 @@ public interface TodoService {
 
     TodoItemDTO findById(Integer id);
 
-    TodoItemDTO add(TodoItemDTO newItem);
+    TodoItemDTO add(TodoItemCreateDTO newItem);
 
     TodoItemDTO update(TodoItemUpdateDTO updatedItem);
 

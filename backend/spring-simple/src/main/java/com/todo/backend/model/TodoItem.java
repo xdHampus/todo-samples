@@ -5,19 +5,23 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "todo_item")
 public class TodoItem {
     public TodoItem() {
+        createdAt = ZonedDateTime.now(Clock.systemUTC());
+        editedAt = ZonedDateTime.now(Clock.systemUTC());
     }
     public TodoItem(String title, String description) {
+        this();
         this.title = title;
         this.description = description;
-        createdAt = LocalDateTime.now();
-        editedAt = LocalDateTime.now();
     }
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,10 +35,10 @@ public class TodoItem {
     private String description;
     @NotNull
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
     @NotNull
     @Column(name = "edited_at")
-    private LocalDateTime editedAt;
+    private ZonedDateTime editedAt;
 
     @Column(name = "completed", columnDefinition = "boolean default false")
     @NotNull
@@ -64,19 +68,19 @@ public class TodoItem {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getEditedAt() {
+    public ZonedDateTime getEditedAt() {
         return editedAt;
     }
 
-    public void setEditedAt(LocalDateTime editedAt) {
+    public void setEditedAt(ZonedDateTime editedAt) {
         this.editedAt = editedAt;
     }
 

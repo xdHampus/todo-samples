@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Objects;
 
 public class TodoItemDTO {
@@ -20,10 +20,8 @@ public class TodoItemDTO {
     private String title;
     @NotNull
     private String description;
-    @JsonIgnore
-    private final LocalDateTime createdAt = LocalDateTime.now();
-    @JsonIgnore
-    private final LocalDateTime editedAt = LocalDateTime.now();
+    private final ZonedDateTime createdAt = ZonedDateTime.now(Clock.systemUTC());
+    private final ZonedDateTime editedAt = ZonedDateTime.now(Clock.systemUTC());
 
     public Integer getId() {
         return id;
@@ -49,11 +47,11 @@ public class TodoItemDTO {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public LocalDateTime getEditedAt() {
+    public ZonedDateTime getEditedAt() {
         return editedAt;
     }
 

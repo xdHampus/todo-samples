@@ -2,6 +2,7 @@ package com.todo.backend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todo.backend.controller.api.TodoApi;
 import com.todo.backend.service.dto.TodoItemDTO;
 import com.todo.backend.service.dto.TodoItemUpdateDTO;
 import com.todo.backend.model.TodoItem;
@@ -26,14 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TodoControllerTest {
 
     @Autowired
-    private TodoController controller;
+    private TodoApi controller;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private TodoRepository repository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private ObjectMapper objectMapper;
     private TodoItem todoItemHomework;
+
 
     @Test
     public void contextLoads() {
@@ -53,7 +57,7 @@ class TodoControllerTest {
     void tearDown() throws JsonProcessingException {
         System.out.println("-- Test teardown --");
         for (TodoItem todoItem : repository.findAll()) {
-            System.out.println(new ObjectMapper().writeValueAsString(mapper.map(todoItem, TodoItemDTO.class)));
+            System.out.println(objectMapper.writeValueAsString(mapper.map(todoItem, TodoItemDTO.class)));
         }
         System.out.println();
     }
@@ -85,7 +89,7 @@ class TodoControllerTest {
         TodoItemDTO newItem = new TodoItemDTO("Testing", "unit tests, integrations tests");
 
         this.mockMvc.perform(post("/todo")
-                        .content(new ObjectMapper().writeValueAsString(newItem))
+                        .content(objectMapper.writeValueAsString(newItem))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andDo(print())
@@ -100,7 +104,7 @@ class TodoControllerTest {
         updateDTO.setDescription("pom & django backend app");
 
         this.mockMvc.perform(put("/todo")
-                        .content(new ObjectMapper().writeValueAsString(updateDTO))
+                        .content(objectMapper.writeValueAsString(updateDTO))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andDo(print())

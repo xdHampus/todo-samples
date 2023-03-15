@@ -1,39 +1,44 @@
 package com.todo.backend.controller;
 
+import com.todo.backend.controller.api.TodoApi;
 import com.todo.backend.service.TodoService;
+import com.todo.backend.service.dto.TodoItemCreateDTO;
 import com.todo.backend.service.dto.TodoItemDTO;
 import com.todo.backend.service.dto.TodoItemUpdateDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/todo")
-public class TodoController {
+public class TodoController implements TodoApi {
     private final TodoService todoService;
 
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
     }
 
-    @RequestMapping(value={"", "/", "/all"})
-    List<TodoItemDTO> getAll(){
+    @Override
+    public List<TodoItemDTO> getAll(){
         return todoService.findAll();
     }
-    @GetMapping("/{id}")
-    TodoItemDTO get(@PathVariable Integer id){
+    @Override
+    public TodoItemDTO get(@PathVariable Integer id){
         return todoService.findById(id);
     }
-    @PostMapping
-    TodoItemDTO add(@RequestBody TodoItemDTO newItem){
+    @Override
+    public TodoItemDTO add(@RequestBody TodoItemCreateDTO newItem){
         return todoService.add(newItem);
     }
-    @PutMapping
-    TodoItemDTO update(@RequestBody TodoItemUpdateDTO updatedItem){
+    @Override
+    public TodoItemDTO update(@RequestBody TodoItemUpdateDTO updatedItem){
         return todoService.update(updatedItem);
     }
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable Integer id){
+    @Override
+    public void delete(@PathVariable Integer id){
         todoService.delete(id);
     }
 
