@@ -2,13 +2,9 @@ package com.todo.backend.controller;
 
 import com.todo.backend.controller.api.TodoApi;
 import com.todo.backend.service.TodoService;
-import com.todo.backend.service.dto.TodoItemCreateDTO;
-import com.todo.backend.service.dto.TodoItemDTO;
-import com.todo.backend.service.dto.TodoItemUpdateDTO;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.todo.backend.dto.TodoItemCreateDTO;
+import com.todo.backend.dto.TodoItemDTO;
+import com.todo.backend.dto.TodoItemUpdateDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

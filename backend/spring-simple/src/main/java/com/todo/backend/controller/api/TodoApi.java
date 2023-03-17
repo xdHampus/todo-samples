@@ -1,8 +1,8 @@
 package com.todo.backend.controller.api;
 
-import com.todo.backend.service.dto.TodoItemCreateDTO;
-import com.todo.backend.service.dto.TodoItemDTO;
-import com.todo.backend.service.dto.TodoItemUpdateDTO;
+import com.todo.backend.dto.TodoItemCreateDTO;
+import com.todo.backend.dto.TodoItemDTO;
+import com.todo.backend.dto.TodoItemUpdateDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

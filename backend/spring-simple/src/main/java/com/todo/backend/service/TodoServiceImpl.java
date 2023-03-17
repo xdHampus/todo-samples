@@ -1,12 +1,11 @@
 package com.todo.backend.service;
 
-import com.todo.backend.model.TodoItem;
+import com.todo.backend.service.map.TodoItemMapper;
 import com.todo.backend.model.repository.TodoRepository;
-import com.todo.backend.service.dto.TodoItemCreateDTO;
-import com.todo.backend.service.dto.TodoItemDTO;
-import com.todo.backend.service.dto.TodoItemUpdateDTO;
+import com.todo.backend.dto.TodoItemCreateDTO;
+import com.todo.backend.dto.TodoItemDTO;
+import com.todo.backend.dto.TodoItemUpdateDTO;
 import com.todo.backend.util.TodoItemNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
-    private final ModelMapper mapper;
-    public TodoServiceImpl(TodoRepository todoRepository, ModelMapper mapper) {
+    private final TodoItemMapper mapper;
+    public TodoServiceImpl(TodoRepository todoRepository, TodoItemMapper mapper) {
         this.todoRepository = todoRepository;
         this.mapper = mapper;
     }
@@ -25,34 +24,28 @@ public class TodoServiceImpl implements TodoService {
     public List<TodoItemDTO> findAll() {
         return todoRepository.findAll()
                 .stream()
-                .map(x -> mapper.map(x, TodoItemDTO.class))
+                .map(mapper::mapDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public TodoItemDTO findById(Integer id) {
-        return mapper.map(
+        return mapper.mapDto(
                 todoRepository.findById(id)
-                        .orElseThrow(() -> new TodoItemNotFoundException(id)),
-                TodoItemDTO.class
+                        .orElseThrow(() -> new TodoItemNotFoundException(id))
         );
     }
 
     @Override
     public TodoItemDTO add(TodoItemCreateDTO newItem) {
-        var savedItem = todoRepository.save(mapper.map(newItem, TodoItem.class));
-        return mapper.map(savedItem, TodoItemDTO.class);
+        var itemToSave = todoRepository.save(mapper.map(newItem));
+        return mapper.mapDto(itemToSave);
     }
 
     @Override
     public TodoItemDTO update(TodoItemUpdateDTO updatedItem) {
-        var oldItem = todoRepository.findById(updatedItem.getId())
-                .orElseThrow(() -> new TodoItemNotFoundException(updatedItem.getId()));
-
-        var itemToSave = mapper.map(updatedItem, TodoItem.class);
-        itemToSave.setCreatedAt(oldItem.getCreatedAt());
-
-        return mapper.map(todoRepository.save(itemToSave), TodoItemDTO.class);
+        var itemToSave = mapper.map(updatedItem);
+        return mapper.mapDto(todoRepository.save(itemToSave));
     }
 
     @Override

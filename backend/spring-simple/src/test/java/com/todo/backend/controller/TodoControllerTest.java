@@ -3,12 +3,12 @@ package com.todo.backend.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todo.backend.controller.api.TodoApi;
-import com.todo.backend.service.dto.TodoItemDTO;
-import com.todo.backend.service.dto.TodoItemUpdateDTO;
+import com.todo.backend.dto.TodoItemDTO;
+import com.todo.backend.dto.TodoItemUpdateDTO;
+import com.todo.backend.service.map.TodoItemMapper;
 import com.todo.backend.model.TodoItem;
 import com.todo.backend.model.repository.TodoRepository;
 import org.junit.jupiter.api.*;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +33,7 @@ class TodoControllerTest {
     @Autowired
     private TodoRepository repository;
     @Autowired
-    private ModelMapper mapper;
+    private TodoItemMapper mapper;
     @Autowired
     private ObjectMapper objectMapper;
     private TodoItem todoItemHomework;
@@ -57,7 +57,7 @@ class TodoControllerTest {
     void tearDown() throws JsonProcessingException {
         System.out.println("-- Test teardown --");
         for (TodoItem todoItem : repository.findAll()) {
-            System.out.println(objectMapper.writeValueAsString(mapper.map(todoItem, TodoItemDTO.class)));
+            System.out.println(objectMapper.writeValueAsString(mapper.mapDto(todoItem)));
         }
         System.out.println();
     }
@@ -100,9 +100,12 @@ class TodoControllerTest {
 
     @Test
     void update() throws Exception {
-        var updateDTO = mapper.map(todoItemHomework, TodoItemUpdateDTO.class);
-        updateDTO.setDescription("pom & django backend app");
-
+        var updateDTO = mapper.mapUpdateDto(todoItemHomework);
+        updateDTO = new TodoItemUpdateDTO(
+                updateDTO.id(),
+                updateDTO.title(),
+                "pom & django backend app"
+        );
         this.mockMvc.perform(put("/todo")
                         .content(objectMapper.writeValueAsString(updateDTO))
                         .contentType(MediaType.APPLICATION_JSON)

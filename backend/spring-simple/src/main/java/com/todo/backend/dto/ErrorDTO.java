@@ -1,6 +1,4 @@
-package com.todo.backend.service.dto;
-
-import jakarta.validation.constraints.NotBlank;
+package com.todo.backend.dto;
 
 import java.util.Objects;
 
